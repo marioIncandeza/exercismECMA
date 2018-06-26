@@ -9,7 +9,11 @@ class WordSearch {
 			b = searchRowReverse.call(this, word),
 			c = searchColumn(word, rows2columns(this._grid)),
 			d = searchColumnDownUp(word, rows2columnsDownUp(this._grid)),
-			output = Object.assign(a, b, c, d);
+			e = diagLeftRightDown.call(this, word),
+			f = diagRightLeftUp.call(this, word),
+			g = diagLeftRightUp.call(this, word),
+			h = diagRightLeftDown.call(this, word),
+			output = Object.assign(a, b, c, d, e, f, g, h);
 		return output;
 	}
 
@@ -117,6 +121,134 @@ function searchRowReverse(words) {
 				results[words[c]] = {end: [x + 1, splitRow.length - search.end + 1], start: [x + 1, splitRow.length - search.begin + 1]};
 			}
 		}
+	}
+	return results;
+}
+
+function diagLeftRightDown(words) {
+	let splitRow = [],
+		results = {},
+		letters = [],
+		compare = [];
+	splitRow = this._grid.map(el => el.split(''));
+	for (let c = 0; c < words.length; c++) {
+		compare = [];
+		letters = [];
+		results[words[c]];
+		letters = words[c].split('');
+		for (let k = 0; k < splitRow.length; k++) {
+			for (let j = 0; j < splitRow[k].length; j++) {
+				if (splitRow[k][j] === letters[0]) {
+					compare = [];
+					compare.push(letters[0]);
+					for (var h = 1; h < letters.length; h++) {
+						if (splitRow[k + h]) {
+							compare.push(splitRow[k + h][j + h]);
+						}
+					}
+				}
+				if (isEqual(letters, compare)) {
+					results[words[c]] = {end: [k + h, j + h], start: [k + 1, j + 1]};
+					compare = [];
+				}
+			}
+		}	
+	}
+	return results;
+}
+
+function diagRightLeftUp(words) {
+	let splitRow = [],
+		results = {},
+		letters = [],
+		compare = [];
+	splitRow = this._grid.map(el => el.split(''));
+	for (let c = 0; c < words.length; c++) {
+		compare = [];
+		letters = [];
+		results[words[c]];
+		letters = words[c].split('');
+		for (let k = splitRow.length - 1; k >= 0; k--) {
+			for (let j = splitRow[k].length - 1; j >= 0; j--) {
+				if (splitRow[k][j] === letters[0]) {
+					compare = [];
+					compare.push(letters[0]);
+					for (var h = 1; h < letters.length; h++) {
+						if (splitRow[k - h]) {
+							compare.push(splitRow[k - h][j - h]);
+						}
+					}
+				}
+				if (isEqual(letters, compare)) {
+					results[words[c]] = {end: [k + 1 - (letters.length - 1) , j + 1 - (letters.length - 1)], start: [k + 1, j + 1]};
+					compare = [];
+				}
+			}
+		}	
+	}
+	return results;
+}
+
+function diagLeftRightUp(words) {
+	let splitRow = [],
+		results = {},
+		letters = [],
+		compare = [];
+	splitRow = this._grid.map(el => el.split(''));
+	for (let c = 0; c < words.length; c++) {
+		compare = [];
+		letters = [];
+		results[words[c]];
+		letters = words[c].split('');
+		for (let k = splitRow.length - 1; k >= 0; k--) {
+			for (let j = 0; j < splitRow[k].length; j++) {
+				if (splitRow[k][j] === letters[0]) {
+					compare = [];
+					compare.push(letters[0]);
+					for (var h = 1; h < letters.length; h++) {
+						if (splitRow[k - h]) {
+							compare.push(splitRow[k - h][j + h]);
+						}
+					}
+				}
+				if (isEqual(letters, compare)) {
+					results[words[c]] = {end: [k + 1 - (h - 1), j + h], start: [k + 1, j + 1]};
+					compare = [];
+				}
+			}
+		}	
+	}
+	return results;
+}
+
+function diagRightLeftDown(words) {
+	let splitRow = [],
+		results = {},
+		letters = [],
+		compare = [];
+	splitRow = this._grid.map(el => el.split(''));
+	for (let c = 0; c < words.length; c++) {
+		compare = [];
+		letters = [];
+		results[words[c]];
+		letters = words[c].split('');
+		for (let k = 0; k < splitRow.length; k++) {
+			for (let j = splitRow[k].length - 1; j >= 0; j--) {
+				if (splitRow[k][j] === letters[0]) {
+					compare = [];
+					compare.push(letters[0]);
+					for (var h = 1; h < letters.length; h++) {
+						if (splitRow[k + h]) {
+							compare.push(splitRow[k + h][j - h]);
+						}
+					}
+				}
+				if (isEqual(letters, compare)) {
+					results[words[c]] = {end: [k + letters.length , j + 1 - (letters.length - 1)], start: [k + 1, j + 1]};
+					compare = [];
+				}
+			}
+		}	
 	}
 	return results;
 }

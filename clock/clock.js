@@ -6,6 +6,7 @@ function at(hour, minute) {
 			if (!minute) {
 				minute = 0;
 			}
+<<<<<<< HEAD
 			if (minute >= 60 || minute < 0) {
 				hour += Math.floor(minute / 60);
 				if (minute < 0) {
@@ -14,6 +15,11 @@ function at(hour, minute) {
 				} else {
 					minute = minute % 60;
 				}
+=======
+			if (minute >= 60) {
+				hour += Math.floor(minute / 60);
+				minute = minute % 60;
+>>>>>>> 47d628a62dbe7000c56cb2c38d8a9c8906fdcd64
 			}
 			min = minute.toString();
 			if (minute < 10) {
